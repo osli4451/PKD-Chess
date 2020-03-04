@@ -83,3 +83,4 @@ input _ b = return b
 main :: IO ()
 main =  playIO (window) (white) (5) (CL.createBoardState) (updateBoard) (input) (step)
 --Commited?
+--Nu då?
