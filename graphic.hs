@@ -13,11 +13,17 @@ window :: Display
 window = InWindow "PKD Chess" (1080, 760) (10, 10)
 
 
-
+{- blackOrWhite w b
+DESCRIPTON: Translates the output from CL.White and CL.Black to the function color so a Picture can be made
+RETURNS: A funktion that decides color of a piece -}
 blackOrWhite :: CL.Color -> (Picture -> Picture)
 blackOrWhite CL.White = color white
 blackOrWhite CL.Black = color black
 
+{- chessPieceToPicture p (x,y)
+DESCRIPTION: Takes a chesspeice, its cordinates and draws it to a picture on its correct position
+RETURNS: A picture with the drawn pieces
+-}
 chessPieceToPicture :: CL.ChessPiece -> (Float,Float) ->Picture
 chessPieceToPicture (CL.King c)  (x,y)      = translate (squareSize * x) (squareSize * (7 - y)) $ (blackOrWhite c $ rectangleSolid 10 10)
 chessPieceToPicture (CL.Queen c)   (x,y)    = translate (squareSize * x) (squareSize * (7 - y)) $  ( blackOrWhite c $ thickCircle 15 5)
@@ -27,12 +33,13 @@ chessPieceToPicture (CL.Rook  c)  (x,y)      = translate (squareSize * x) (squar
 chessPieceToPicture (CL.Pawn c ) (x,y)      = translate (squareSize * x) (squareSize * (7 - y)) $ ( blackOrWhite c $ thickCircle 15 10)
 chessPieceToPicture CL.Void     _ = rectangleSolid 0 0
 
+{--}
 updateBoard :: CL.BoardState -> IO Picture
 updateBoard b = return $ chessBoard b
 
 updateBoardAux :: CL.BoardState -> Picture
 updateBoardAux board = Pictures $ loopY 0 board
-    where
+    wherkonstrukt
         loopY :: Float -> CL.BoardState -> [Picture]
         loopY 8 _ = []
         loopY y board = (loopX y 0 board)  ++ loopY (y+1) board
@@ -54,9 +61,6 @@ outline = translate 140 140 $ rectangleWire 320 320
 
 squareSize :: Float
 squareSize = 40
-
-outlines :: Picture
-outlines = outline
 
 chessBoard :: CL.BoardState -> Picture
 chessBoard b = translate (-4 * squareSize) (-4 * squareSize) $ Pictures [boardBack, squares, outlines, (updateBoardAux b)]
